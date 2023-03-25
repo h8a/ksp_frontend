@@ -1,0 +1,54 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-md-6 mt-5">
+        <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Crear empleado</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form   role="form"
+                    [formGroup]="employeeForm"
+                    (ngSubmit)="createEmployee()">
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="inputName">Nombre completo</label>
+                  <input    type="text"
+                            class="form-control"
+                            id="inputName"
+                            placeholder="Nombre completo"
+                            formControlName="name">
+                </div>
+                <div class="form-group">
+                  <label for="inputJob">Puesto de trabajo</label>
+                  <input    type="text"
+                            class="form-control"
+                            id="inputJob"
+                            placeholder="Puesto de trabajo"
+                            formControlName="job">
+                </div>
+                <div class="form-group">
+                  <label for="inputSalary">Salario</label>
+                  <input    type="number"
+                            class="form-control"
+                            id="inputSalary"
+                            placeholder="Salario"
+                            formControlName="salary">
+                </div>
+                <div class="form-group">
+                  <label for="inputHireDate">Fecha de contratación</label>
+                  <input    type="text"
+                            class="form-control"
+                            id="inputHireDate"
+                            placeholder="Fecha de contratación"
+                            formControlName="hire_date">
+                </div>
+              </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer d-flex justify-content-center">
+                <button type="submit" class="btn btn-lg btn-primary">Crear</button>
+              </div>
+            </form>
+          </div>
+    </div>
+</div>

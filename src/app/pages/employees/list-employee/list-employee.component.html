@@ -1,0 +1,58 @@
+<div class="row d-flex justify-content-center">
+    <div class="col-10 mt-3">
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Empleados</h3>
+              <div class="row d-flex justify-content-end">
+                <button class="btn btn-primary"
+                        routerLink="/employees/create">
+                  Crear
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Estatus</th>
+                    <th>Nombre completo</th>
+                    <th>Puesto de trabajo</th>
+                    <th>Salario</th>
+                    <th>Fecha de contratación</th>
+                    <th style="width: 250px">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let employee of employees, let i = index">
+                    <td>{{ i +1 }}</td>
+                    <td>{{ employee.status == '1' ? 'Habilitado': 'Deshabilitado' }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.job }}</td>
+                    <td>{{ employee.salary }}</td>
+                    <td>{{ employee.hire_date }}</td>
+                    <td>
+                        <div class="row">
+                            <div class="col-4">
+                                <button class="btn btn-primary"
+                                  (click)="editEmployee( employee.id )">
+                                  <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-danger"
+                                  (click)="deleteEmployees(employee)">
+                                  <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+    </div>
+</div>
