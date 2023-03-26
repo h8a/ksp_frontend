@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
+import Swal from 'sweetalert2';
+
 import { EmployeesService } from '../../../services/employees.service';
 import { BeneficiariesEmployeesModel, EmployeesModel } from '../../../models/employee.model';
 
@@ -51,16 +54,36 @@ export class EditEmployeeComponent implements OnInit {
   editEmployee() {
     if ( this.employeeForm.invalid ) { return; }
 
-    this.employee = {
+    const employeeEdited = {
       id: this.employeeId,
       ...this.employeeForm.value
     };
 
-    this.employeesService.editEmployee(this.employee)
-      .subscribe(resp => {
-        this.router.navigateByUrl('/employees/list');
-      });
-
+    Swal.fire({
+      title: 'Editar empleado',
+      text: `¿ Editar empleado ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Editar',
+      cancelButtonText: 'No, Cancelar',
+    }).then(( result ) => {
+      if (result.isConfirmed) {
+        this.employeesService.editEmployee(employeeEdited)
+          .subscribe((resp: any) => {
+            this.getEmployee()
+            Swal.fire(
+              'Empleado editado!',
+              'El empleado fue editado',
+              'success'
+            );
+          }, (err) => {
+            Swal.fire(
+              'Error al editar empleado!',
+              'Vuelve a intentarlo o contacte con el administrador',
+            );
+          });
+      }
+    });
   }
 
   editBeneficiary() {
@@ -72,19 +95,63 @@ export class EditEmployeeComponent implements OnInit {
         ...this.beneficiaryForm.value
       }
 
-      this.employeesService.editBeneficiaryEmployee(this.beneficiary)
-      .subscribe((_: any) => {
-        this.router.navigateByUrl('/employees/list');
+      Swal.fire({
+        title: 'Editar beneficiario',
+        text: `¿ Editar beneficiario ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, Editar',
+        cancelButtonText: 'No, Cancelar',
+      }).then(( result ) => {
+        if (result.isConfirmed) {
+          this.employeesService.editBeneficiaryEmployee(this.beneficiary)
+            .subscribe((resp: any) => {
+              Swal.fire(
+                'Beneficiario editado!',
+                'El beneficiario fue editado',
+                'success'
+              );
+            }, (err) => {
+              Swal.fire(
+                'Error al editar beneficiario!',
+                'Vuelve a intentarlo o contacte con el administrador',
+              );
+            });
+        }
       });
     } else {
       this.beneficiary = {
         employee_id: this.employeeId,
         ...this.beneficiaryForm.value
       }
-      this.employeesService.createBeneficiaryEmployee(this.beneficiary)
-        .subscribe((resp: any) => {
-          this.router.navigateByUrl('/employees/list');
-        });
+
+      Swal.fire({
+        title: 'Beneficiario creado',
+        text: `¿ Crear beneficiario ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, Crear',
+        cancelButtonText: 'No, Cancelar',
+      }).then(( result ) => {
+        if (result.isConfirmed) {
+          this.employeesService.createBeneficiaryEmployee(this.beneficiary)
+            .subscribe((resp: any) => {
+              Swal.fire(
+                'Beneficiario creado!',
+                'El beneficiario fue creado',
+                'success'
+              );
+            }, (err) => {
+              Swal.fire(
+                'Error al crear beneficiario!',
+                'Vuelve a intentarlo o contacte con el administrador',
+              );
+            });
+        }
+      });
+
+          // this.router.navigateByUrl('/employees/list');
+
     }
   }
 
@@ -113,9 +180,29 @@ export class EditEmployeeComponent implements OnInit {
   deleteBeneficiaryEmployee(event) {
     event.preventDefault();
 
-    this.employeesService.deleteBeneficiaryEmployee(this.employee.beneficiaries[0].id)
-      .subscribe((resp: any) => {
-        this.router.navigateByUrl('/employees/list');
-      });
+    Swal.fire({
+      title: 'Beneficiario eliminado',
+      text: `¿ Eliminar beneficiario ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminar',
+      cancelButtonText: 'No, Cancelar',
+    }).then(( result ) => {
+      if (result.isConfirmed) {
+        this.employeesService.deleteBeneficiaryEmployee(this.employee.beneficiaries[0].id)
+          .subscribe((resp: any) => {
+            Swal.fire(
+              'Beneficiario eliminado!',
+              'El beneficiario fue eliminado',
+              'success'
+            );
+          }, (err) => {
+            Swal.fire(
+              'Error al elimminar beneficiario!',
+              'Vuelve a intentarlo o contacte con el administrador',
+            );
+          });
+      }
+    });
   }
 }
